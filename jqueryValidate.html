@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<?php 
+	include 'core/init.php';
+?>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="js/jquery-1.7.2.js" type="text/javascript"></script>
+	<script src="js/jquery.validate.js"type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#loginForm').validate({
+				rules:{
+					username:{
+						required:true,
+						rangelength: [8,32]
+					},
+					password:{
+						required:true
+					}
+				},
+				messages:{
+	
+				}
+			});
+		});
+	</script>
+	<title>Página inicial</title>
+</head>
+<body>
+	<form action="" method="post" id="loginForm">
+		
+			Usuário: <br> <input type="text" name="username"> <br>
+			Senha: <br> <input type="password" name="password">
+			<br> <input type="submit" name="Log in">
+		</ul>
+	</form>
+</body>
+</html>
