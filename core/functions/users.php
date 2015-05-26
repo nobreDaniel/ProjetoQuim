@@ -62,5 +62,27 @@ function register_user($register_data){
 	$data = '`'.implode('`, `', array_keys($register_data)). '`';
 	$fields = '\'' .implode('\', \'', $register_data). '\'';
 	mysql_query("INSERT INTO `users` ($data) VALUES ($fields)");
+	email($register_data['email'], 'Ative sua conta', "
+		Olá".$register_data['first_name'].", \n\n
+		Você precisa ativar sua conta, use o link abaixo:\n\n http://localhost/projetoquimica/active.php?email=".$register_data['email']."email_code=".$register_data['email_code']."\n\n
+		- Projeto quimica
+		");
+}
+
+function password_update($user_id, $new_pass){
+	$user_id = (int)$user_id;
+	$new_pass = md5($new_pass);
+	$query = mysql_query("UPDATE `users` set `password` = '$new_pass' where `user_id` = '$user_id'");
+}
+
+function activate($email, $email_code){
+	$email = mysql_real_escape_string($email);
+	$email_code = mysql_real_escape_string($email_code);
+	if(mysql_result(mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `email` = '$email' and `email_code` = '$email_code' and `activate` = 0"),0) == 1){
+		mysql_query("UPDATE `users` set `active` = 1 WHERE `email` = '$email'");
+		return true;
+	}else{
+		return false;
+	}
 }
 ?>

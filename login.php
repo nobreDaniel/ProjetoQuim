@@ -2,7 +2,7 @@
 
 include 'core/init.php';
 
-if(empty($_POST)===false){
+if(empty($_POST)===false && logged_in()==false){
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 

@@ -1,6 +1,9 @@
 <?php 
 	include 'login.php';
 	protect_page();
+
+
+
 ?>
 
 <!DOCTYPE HTML>
@@ -14,15 +17,11 @@
 	<?php include 'include/topo.php'; ?>
 
 		<div class="painelEsquerda">
-			<form action="" method="post" id="registerForm">
-				Usuário: <br> <input type="text" name="username"> <br>
-				Nome: <br> <input type="text" name="first_name"> <br>
-				Sobrenome: <br> <input type="text" name="last_name"> <br>
-				Email: <br> <input type="email" name="email"> <br>
-				Senha: <br> <input type="password" id="password" name="password"> <br>
-				Repita a senha: <br> <input  type="password" name="password_again"> <br>
-				<?php include 'registervalidation.php'; ?> <br>
-				<input type="submit" name="Register" value="Registrar"> <br>
+			<form action="changePass.php" method="post" id="changePass">
+				Senha atual:<br><input type="password" name="old_pass"><br>
+				Nova senha:<br><input type="password" name="new_pass" id="new_pass"><br>
+				Repita a nova senha:<br><input type="password" name="old_pass_again"><br>
+				<input type="submit" value="Mudar senha">
 			</form>
 		</div>
 		

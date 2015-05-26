@@ -1,5 +1,9 @@
 <?php 
 
+function email($to, $subject, $body){
+	mail($to, $subject,$body,'From: eu@eu.com');
+}
+
 function sanitize($data){
 	return mysql_real_escape_string($data);
 }
