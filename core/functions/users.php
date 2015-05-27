@@ -85,4 +85,13 @@ function activate($email, $email_code){
 		return false;
 	}
 }
+
+function update_user($update_data){
+	array_walk($update_data, 'array_sanitize');
+
+	foreach ($update_data as $field => $data) {
+		$update[] = '`'.$field.'`=\''.$data.'\'';
+	}
+	mysql_query("UPDATE `users` set " .	implode(', ', $update). " Where `user_id` =".$_SESSION['user_id']);
+}
 ?>

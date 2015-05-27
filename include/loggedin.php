@@ -3,5 +3,6 @@
 	<ul>
 		<li><a href="logout.php">Sair</a></li>
 		<li><a href="changepassword.php">Alterar senha</a></li>
+		<li><a href="settings.php">Configurações da conta</a></li>
 	</ul>
 </div>
