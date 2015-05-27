@@ -24,6 +24,13 @@ function user_id_from_username($username){
 	return mysql_result($query, 0, 'user_id');
 }
 
+function user_id_from_email($email){
+	$email = sanitize($email);
+	$query = mysql_query("SELECT `user_id` FROM `users` WHERE `email` = '$email'");
+	return mysql_result($query, 0, 'user_id');
+}
+
+
 function login($username, $password){
 	$user_id = user_id_from_username($username);
 	$username = sanitize($username);
@@ -93,5 +100,20 @@ function update_user($update_data){
 		$update[] = '`'.$field.'`=\''.$data.'\'';
 	}
 	mysql_query("UPDATE `users` set " .	implode(', ', $update). " Where `user_id` =".$_SESSION['user_id']);
+}
+
+function recover($mode, $email){
+	$mode = sanitize($mode);
+	$email = sanitize($email);
+
+	$user_data = user_data(user_id_from_email($email), 'first_name', 'username');
+	if($mode == 'username'){
+		email($email, 'Seu nome de usuário', $user_data['username']);
+	}
+	else if($mode == 'password'){
+		$generated_password = substr(md5(rand(999, 99999)), 0,8);
+		password_update($user_data['user_id'], $generated_password);
+		email($email, 'Sua nova senha', $generated_password);
+	}
 }
 ?>

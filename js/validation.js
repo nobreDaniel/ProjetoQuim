@@ -23,6 +23,37 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#settings').validate({
+		rules:{
+			first_name:{
+				required:true,
+				rangelength: [5,32]
+			},
+			last_name:{
+				required:true,
+				rangelength: [3,32]
+			},
+			email{
+				required: true,
+				email: true
+			}
+		},
+		messages:{
+			first_name:{
+				required:"Este campo é obrigatório",
+				rangelength: "Este vampo deve conter no mínimo 3 caracteres"
+			},
+			last_name:{
+				required:"Este campo é obrigatório",
+				rangelength: "Este vampo deve conter no mínimo 3 caracteres"
+			},
+			email{
+				required: "Este campo é obrigatório",
+				email: "Este vampo deve conter no mínimo 3 caracteres"
+			}
+		}
+	});
+
 	$('#registerForm').validate({
 		rules:{
 			username:{

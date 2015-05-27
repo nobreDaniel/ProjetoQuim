@@ -5,11 +5,11 @@ function email($to, $subject, $body){
 }
 
 function sanitize($data){
-	return mysql_real_escape_string($data);
+	return htmlentities(strip_tags(mysql_real_escape_string($data)));
 }
 
 function array_sanitize(&$item){
-	$item = mysql_real_escape_string($item);
+	$item = htmlentities(strip_tags(mysql_real_escape_string($item)));
 }
 
 function output_errors($errors){
