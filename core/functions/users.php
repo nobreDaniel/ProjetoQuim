@@ -3,7 +3,10 @@
 function user_exists($username){
 	$username = sanitize($username);
 	$query = mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `username` = '$username'");
-	return(mysql_result($query, 0) == 1) ? true : false;
+	if(mysql_result($query, 0) == 1){
+		return true;
+	}else
+		return false;
 }
 
 function email_exists($email){
@@ -59,7 +62,8 @@ function user_data($user_id){
 	}
 }
 
-function user_count(){	$query = mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `active` = 1");
+function user_count(){	
+	$query = mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `active` = 1");
 	return mysql_result($query, 0);
 }
 
@@ -127,5 +131,25 @@ function change_profile_image($user_id, $file_temp, $file_extn){
 	$file_path = 'images/profile/'.substr(md5(time()), 0, 10).'.'.$file_extn;
 	move_uploaded_file($file_temp, $file_path);
 	mysql_query("UPDATE `users` set `profile` = '$file_path' WHERE `user_id` = '$user_id'");
+}
+
+function load_comments($page_id){
+	$query = mysql_query("SELECT first_name, last_name, comment FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id ORDER BY comment_id DESC");
+	$rows = mysql_num_rows($query);
+	if($rows > 0){
+		while($field = mysql_fetch_array($query)){
+			$first_name = $field['first_name'];
+			$last_name = $field['last_name'];
+			$comment = $field['comment'];
+
+			echo $first_name.' '.$last_name . '<br>' . $comment.'<hr>';
+		}
+	}
+}
+
+function get_current_day(){
+	date_default_timezone_set('America/Sao_Paulo');
+	$date = date('d/m/y', time());
+	return $date;
 }
 ?>
