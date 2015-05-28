@@ -32,4 +32,12 @@ function logged_in_redirect(){
 		exit();
 	}
 }
+
+function admin_protect(){
+	global $user_data;
+	if(has_access($user_data['user_id'], 1) == false){
+		header('Location: index.php');
+		exit();
+	}
+}
 ?>

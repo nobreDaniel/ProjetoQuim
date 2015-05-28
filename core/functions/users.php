@@ -59,8 +59,7 @@ function user_data($user_id){
 	}
 }
 
-function user_count(){
-	$query = mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `active` = 1");
+function user_count(){	$query = mysql_query("SELECT COUNT(`user_id`) FROM `users` WHERE `active` = 1");
 	return mysql_result($query, 0);
 }
 
@@ -115,5 +114,12 @@ function recover($mode, $email){
 		password_update($user_data['user_id'], $generated_password);
 		email($email, 'Sua nova senha', $generated_password);
 	}
+}
+
+function has_access($user_id, $type){
+	$user_id = (int)$user_id;
+	$type = (int)$type;
+	$query = mysql_query("SELECT COUNT(`user_id`) from `users` WHERE `user_id` = $user_id and `type` = $type");
+	return ((mysql_result($query, 0)) == 1) ? true : false;
 }
 ?>
