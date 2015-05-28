@@ -1,6 +1,6 @@
 <?php
 
-@mysql_connect('localhost','root', '123') or die (mysql_error());
-@mysql_select_db('mydb');
+@mysql_connect('mysql.hostinger.com.br','u901723924_root', '');
+@mysql_select_db('u901723924_mydb');
 
 ?>

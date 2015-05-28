@@ -122,4 +122,10 @@ function has_access($user_id, $type){
 	$query = mysql_query("SELECT COUNT(`user_id`) from `users` WHERE `user_id` = $user_id and `type` = $type");
 	return ((mysql_result($query, 0)) == 1) ? true : false;
 }
+
+function change_profile_image($user_id, $file_temp, $file_extn){
+	$file_path = 'images/profile/'.substr(md5(time()), 0, 10).'.'.$file_extn;
+	move_uploaded_file($file_temp, $file_path);
+	mysql_query("UPDATE `users` set `profile` = '$file_path' WHERE `user_id` = '$user_id'");
+}
 ?>

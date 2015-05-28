@@ -40,3 +40,8 @@
 label.error { 
 	color: #afc;
 }
+
+.profile{
+	background-color: #f9f9f9;
+	border: 1px dashed #ccc;
+}
