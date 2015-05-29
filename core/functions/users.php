@@ -133,17 +133,46 @@ function change_profile_image($user_id, $file_temp, $file_extn){
 	mysql_query("UPDATE `users` set `profile` = '$file_path' WHERE `user_id` = '$user_id'");
 }
 
-function load_comments($page_id){
-	$query = mysql_query("SELECT first_name, last_name, comment FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id ORDER BY comment_id DESC");
+function load_comments($page_id, $user_data){
+	$query = mysql_query("SELECT first_name, last_name, comment, comment_id, username FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 0 ORDER BY comment_id DESC");
+	
 	$rows = mysql_num_rows($query);
+	
 	if($rows > 0){
 		while($field = mysql_fetch_array($query)){
+			
 			$first_name = $field['first_name'];
 			$last_name = $field['last_name'];
 			$comment = $field['comment'];
+			$comment_id = $field['comment_id'];
+			$username = $field['username'];
 
-			echo $first_name.' '.$last_name . '<br>' . $comment.'<hr>';
+			$reply_query = mysql_query("SELECT first_name, last_name, comment, comment_id, to_reply_id, username FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 1 and to_reply_id = $comment_id ORDER BY comment_id ASC");
+			$reply_rows = mysql_num_rows($reply_query);
+
+			echo '<a href="profile.php?username='.$username.'">'.$first_name.' '.$last_name.'</a>'.'  |  '.get_current_day().'<br>'.$comment.'<br><br>';
+
+			if($reply_rows>0){
+				while($field2 = mysql_fetch_array($reply_query)){
+
+					$to_reply_id = $field2['to_reply_id'];
+					$reply = $field2['comment'];
+
+					$reply_first_name = $field2['first_name'];
+					$reply_last_name = $field2['last_name'];
+					$reply_username = $field2['username'];
+
+					if($to_reply_id == $comment_id){
+						echo '<div class="reply">'.'<a href="profile.php?username='.$reply_username.'">'.$reply_first_name.' '.$reply_last_name.'</a>  |  '.get_current_day().'<br>'.$reply.'<br></div><br>';
+					}
+
+				}
+
+
+			}
+			echo '<a class="reply" href="?id='.$comment_id .'">Responder</a> <hr>';
 		}
+
 	}
 }
 
@@ -151,5 +180,13 @@ function get_current_day(){
 	date_default_timezone_set('America/Sao_Paulo');
 	$date = date('d/m/y', time());
 	return $date;
+}
+
+function new_comment($user_id, $page_id, $to_reply_id, $reply){
+	if(empty($_POST)==false){
+		$ins_comment = $_POST['comentario'];
+		mysql_query("INSERT INTO comments(comment, user_id, page_id, date,to_reply_id, reply) values('$ins_comment', $user_id, $page_id,'".get_current_day()."' ,$to_reply_id, $reply)");
+		header('Location: ?success');
+	}
 }
 ?>

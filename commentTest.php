@@ -4,16 +4,40 @@
 	include 'core/init.php';
 	protect_page();
 	$page_id = 1;
+	$to_reply_id = 0;
+	$reply = 0;	
 
-	if(empty($_POST)==false){
-		$ins_comment = $_POST['comentario'];
-		mysql_query("INSERT INTO comments(comment, user_id, page_id, date) values('$ins_comment', $session_user_id, $page_id,'".get_current_day()."')");
+	if(isset($_GET['id'])==true){
+		$reply = 1;
+		$to_reply_id = $_GET['id'];
 	}
+	else if(isset($_GET['success'])){
+		$to_reply_id = 0;
+		$reply = 0;
+	}
+	new_comment($session_user_id, $page_id, $to_reply_id, $reply);
 ?>
 <html lang="pt-br">
 <head>
 	<?php include 'include/head.php'; ?>
 	<title>Teste de comentários</title>
+    <SCRIPT TYPE=”text/javascript”>
+    
+    function submitenter(myfield,e)
+	    {
+		    var keycode;
+		    if (window.event) keycode = window.event.keyCode;
+		    else if (e) keycode = e.which;
+		    else return true;
+
+		    if (keycode == 13){
+		    	myfield.form.submit();
+		   		return false;
+		    }
+	    else
+	    return true;
+	    }
+    </SCRIPT>
 </head>
 <body>
 		<?php include 'include/topo.php'; ?>
@@ -25,10 +49,10 @@
 			
 			<br> 
 			<?php   
-				load_comments($page_id);
+				load_comments($page_id, $user_data);
 			?>
 			<form action="" method="post" name="comment">
-				Comentar:<br><textarea type="text" name="comentario"></textarea>
+				Comentar:<br><textarea href="#textarea" type="text" name="comentario"></textarea>
 				<input type="submit" value="Comentar">
 			</form>
 		</div 

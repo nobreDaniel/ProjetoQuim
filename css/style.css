@@ -21,14 +21,16 @@
 	float: left;
 	background-color: #ccc;
 	min-height: 550px;
+	height: auto;
 	width: 60%;
+	padding: 20px;
 }
 
 .painelDireita{
 	float: left;
 	background-color: #888;
 	min-height: 550px;
-	width: 39%;
+	width: 30%;
 }
 
 .footer{
@@ -44,4 +46,8 @@ label.error {
 .profile{
 	background-color: #f9f9f9;
 	border: 1px dashed #ccc;
+}
+
+div .reply{
+	padding-left: 20px;
 }
