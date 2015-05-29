@@ -33,6 +33,11 @@
 	width: 30%;
 }
 
+.painelDireita img{
+	width: 100%;
+	height: auto;
+}
+
 .footer{
 	width: 100%;
 	min-height: 80px;
