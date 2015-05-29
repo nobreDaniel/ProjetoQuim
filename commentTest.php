@@ -6,7 +6,7 @@
 	$page_id = 1;
 	$to_reply_id = 0;
 	$reply = 0;	
-	$delete_id = NULL;
+	$comment_id = NULL;
 	if(isset($_GET['id'])==true){
 		$reply = 1;
 		$to_reply_id = $_GET['id'];
@@ -14,14 +14,26 @@
 	else if(isset($_GET['success'])){
 		$to_reply_id = 0;
 		$reply = 0;
-		$delete_id = NULL;
+		$comment_id = NULL;
 	}
-	else if(isset($_GET['delete_id'])){
-		$delete_id = $_GET['delete_id'];
-		delete_comment($delete_id);
-		header('Location: ?success');
+	else if(isset($_GET['comment_id'])){
+		$comment_id = $_GET['comment_id'];
+		if($_GET['mode']=='delete'){
+			delete_comment($comment_id);
+			header('Location: ?success');
+		}
+		//else if($_GET['mode']=='edit'){
+
+		//}
+		
 	}
-	new_comment($session_user_id, $page_id, $to_reply_id, $reply);
+	if(empty($_GET['mode'])==true || $_GET['mode'] !== 'edit'){
+		new_comment($session_user_id, $page_id, $to_reply_id, $reply);
+	}
+	if(empty($_GET['mode'])==false && $_GET['mode'] == 'edit' && empty($_POST)==false){
+		$comment = $_POST['comentario'];
+		edit_comment($_GET['comment_id'], $comment);
+	}
 ?>
 <html lang="pt-br">
 <head>
@@ -58,7 +70,8 @@
 				load_comments($page_id, $user_data, $session_user_id);
 			?>
 			<form action="" method="post" name="comment">
-				Comentar:<br><textarea href="#textarea" type="text" name="comentario"></textarea>
+				Comentar:<br><textarea href="#textarea" type="text" name="comentario"><?php if(empty($_GET['mode']) == false && $_GET['mode']=='edit'){echo get_comment_from_id($comment_id, $page_id);} ?></textarea>
+				
 				<input type="submit" value="Comentar">
 			</form>
 		</div 

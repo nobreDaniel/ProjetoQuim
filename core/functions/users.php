@@ -153,8 +153,10 @@ function load_comments($page_id, $user_data, $session_user_id){
 
 			echo '<a href="profile.php?username='.$username.'">'.$first_name.' '.$last_name.'</a>'.'  |  '.get_current_day().'<br>'.$comment.'<br>';
 
-			if($username == $session_user_name)
-				echo '<a href="?delete_id='.$comment_id.'">Deletar</a><br><br>';
+			if($username == $session_user_name){
+				echo '<a href="?comment_id='.$comment_id.'&mode=delete">Deletar</a>    ||  ';
+				echo '<a href="?comment_id='.$comment_id.'&mode=edit">Editar</a><br><br>';
+			}
 			else
 				echo '<br>';
 			if($reply_rows>0){
@@ -169,8 +171,10 @@ function load_comments($page_id, $user_data, $session_user_id){
 
 					if($to_reply_id == $comment_id){
 						echo '<div class="reply">'.'<a href="profile.php?username='.$reply_username.'">'.$reply_first_name.' '.$reply_last_name.'</a>  |  '.get_current_day().'<br>'.$reply.'<br></div><br>';
-					if($reply_username == $session_user_name)
-						echo '<a class="reply" href="?delete_id='.$reply_comment_id.'">Deletar</a><br><br>';
+					if($reply_username == $session_user_name){
+						echo '<a class="reply" href="?comment_id='.$reply_comment_id.'&mode=delete">Deletar</a>   ||';
+						echo '<a class="reply" href="?comment_id='.$reply_comment_id.'&mode=edit">Editar</a><br><br>';
+					}
 			else
 				echo '<br>';
 					}
@@ -179,6 +183,16 @@ function load_comments($page_id, $user_data, $session_user_id){
 			echo '<a class="reply" href="?id='.$comment_id .'">Responder</a> <hr>';
 		}
 	}
+}
+
+function get_comment_from_id($comment_id, $page_id){
+	$comment_id = (int)$comment_id;
+
+	$query = mysql_query("SELECT comment FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id AND comment_id = $comment_id");
+
+	$field = mysql_fetch_array($query);
+	$comment = $field['comment'];
+	return $comment;
 }
 
 function get_current_day(){
@@ -202,7 +216,11 @@ function delete_comment($comment_id){
 	mysql_query("DELETE FROM comments WHERE to_reply_id = $comment_id");
 }
 
-function edit_comment(){
+function edit_comment($comment_id, $comment){
+	$comment_id = (int)$comment_id;
 
+	mysql_query("UPDATE comments SET comment = '$comment' WHERE comment_id = $comment_id");
+
+	header('Location= ?success');
 }
 ?>
