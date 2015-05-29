@@ -6,7 +6,7 @@
 	$page_id = 1;
 	$to_reply_id = 0;
 	$reply = 0;	
-
+	$delete_id = NULL;
 	if(isset($_GET['id'])==true){
 		$reply = 1;
 		$to_reply_id = $_GET['id'];
@@ -14,6 +14,12 @@
 	else if(isset($_GET['success'])){
 		$to_reply_id = 0;
 		$reply = 0;
+		$delete_id = NULL;
+	}
+	else if(isset($_GET['delete_id'])){
+		$delete_id = $_GET['delete_id'];
+		delete_comment($delete_id);
+		header('Location: ?success');
 	}
 	new_comment($session_user_id, $page_id, $to_reply_id, $reply);
 ?>
@@ -49,7 +55,7 @@
 			
 			<br> 
 			<?php   
-				load_comments($page_id, $user_data);
+				load_comments($page_id, $user_data, $session_user_id);
 			?>
 			<form action="" method="post" name="comment">
 				Comentar:<br><textarea href="#textarea" type="text" name="comentario"></textarea>

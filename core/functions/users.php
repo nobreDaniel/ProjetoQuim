@@ -133,7 +133,7 @@ function change_profile_image($user_id, $file_temp, $file_extn){
 	mysql_query("UPDATE `users` set `profile` = '$file_path' WHERE `user_id` = '$user_id'");
 }
 
-function load_comments($page_id, $user_data){
+function load_comments($page_id, $user_data, $session_user_id){
 	$query = mysql_query("SELECT first_name, last_name, comment, comment_id, username FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 0 ORDER BY comment_id DESC");
 	
 	$rows = mysql_num_rows($query);
@@ -146,33 +146,38 @@ function load_comments($page_id, $user_data){
 			$comment = $field['comment'];
 			$comment_id = $field['comment_id'];
 			$username = $field['username'];
+			$session_user_name = $user_data['username'];
 
 			$reply_query = mysql_query("SELECT first_name, last_name, comment, comment_id, to_reply_id, username FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 1 and to_reply_id = $comment_id ORDER BY comment_id ASC");
 			$reply_rows = mysql_num_rows($reply_query);
 
-			echo '<a href="profile.php?username='.$username.'">'.$first_name.' '.$last_name.'</a>'.'  |  '.get_current_day().'<br>'.$comment.'<br><br>';
+			echo '<a href="profile.php?username='.$username.'">'.$first_name.' '.$last_name.'</a>'.'  |  '.get_current_day().'<br>'.$comment.'<br>';
 
+			if($username == $session_user_name)
+				echo '<a href="?delete_id='.$comment_id.'">Deletar</a><br><br>';
+			else
+				echo '<br>';
 			if($reply_rows>0){
 				while($field2 = mysql_fetch_array($reply_query)){
 
 					$to_reply_id = $field2['to_reply_id'];
 					$reply = $field2['comment'];
-
+					$reply_comment_id = $field2['comment_id'];
 					$reply_first_name = $field2['first_name'];
 					$reply_last_name = $field2['last_name'];
 					$reply_username = $field2['username'];
 
 					if($to_reply_id == $comment_id){
 						echo '<div class="reply">'.'<a href="profile.php?username='.$reply_username.'">'.$reply_first_name.' '.$reply_last_name.'</a>  |  '.get_current_day().'<br>'.$reply.'<br></div><br>';
+					if($reply_username == $session_user_name)
+						echo '<a class="reply" href="?delete_id='.$reply_comment_id.'">Deletar</a><br><br>';
+			else
+				echo '<br>';
 					}
-
 				}
-
-
 			}
 			echo '<a class="reply" href="?id='.$comment_id .'">Responder</a> <hr>';
 		}
-
 	}
 }
 
@@ -188,5 +193,16 @@ function new_comment($user_id, $page_id, $to_reply_id, $reply){
 		mysql_query("INSERT INTO comments(comment, user_id, page_id, date,to_reply_id, reply) values('$ins_comment', $user_id, $page_id,'".get_current_day()."' ,$to_reply_id, $reply)");
 		header('Location: ?success');
 	}
+}
+
+function delete_comment($comment_id){
+	$comment_id = (int)$comment_id;
+
+	mysql_query("DELETE FROM comments WHERE comment_id = $comment_id");
+	mysql_query("DELETE FROM comments WHERE to_reply_id = $comment_id");
+}
+
+function edit_comment(){
+
 }
 ?>
