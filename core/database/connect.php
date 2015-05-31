@@ -1,6 +1,6 @@
 <?php
 
-@mysql_connect('localhost','root', '123');
+@mysql_connect('localhost','root', '');
 @mysql_select_db('mydb');
 
 ?>
