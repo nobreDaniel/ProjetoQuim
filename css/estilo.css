@@ -48,6 +48,7 @@
 	width: 150px;
 	height: 150px;
 	margin-left: 10%;
+	display: block;
 }
 
 .nav-lateral li{
@@ -98,6 +99,6 @@
 }
 
 .comentario{
-	width: 100%;
+	width: 98%;
 	height: 100px;
 }

@@ -134,7 +134,7 @@ function change_profile_image($user_id, $file_temp, $file_extn){
 }
 
 function load_comments($page_id, $user_data, $session_user_id){
-	$query = mysql_query("SELECT first_name, last_name, comment, comment_id, username FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 0 ORDER BY comment_id DESC");
+	$query = mysql_query("SELECT first_name, last_name, comment, comment_id, username, profile, date FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 0 ORDER BY comment_id DESC");
 	
 	$rows = mysql_num_rows($query);
 	
@@ -147,18 +147,35 @@ function load_comments($page_id, $user_data, $session_user_id){
 			$comment_id = $field['comment_id'];
 			$username = $field['username'];
 			$session_user_name = $user_data['username'];
+			$profile_pic = $field['profile'];
+			$comment_date = $field['date'];
 
-			$reply_query = mysql_query("SELECT first_name, last_name, comment, comment_id, to_reply_id, username FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 1 and to_reply_id = $comment_id ORDER BY comment_id ASC");
+			$reply_query = mysql_query("SELECT first_name, last_name, comment, comment_id, to_reply_id, username, profile, date FROM users INNER JOIN comments ON users.user_id = comments.user_id WHERE page_id = $page_id and reply = 1 and to_reply_id = $comment_id ORDER BY comment_id ASC");
 			$reply_rows = mysql_num_rows($reply_query);
 
-			echo '<a href="profile.php?username='.$username.'">'.$first_name.' '.$last_name.'</a>'.'  |  '.get_current_day().'<br>'.$comment.'<br>';
+			//echo '<a href="profile.php?username='.$username.'">'.$first_name.' '.$last_name.'</a>'.'  |  '.get_current_day().'<br>'.$comment.'<br>';
+
+			echo
+
+			'<div class="media"> <a class="pull-left" href="#"> 
+        		<img class="media-object img-circle" data-src="holder.js/64x64" alt="64x64" src="'.$profile_pic.'" style="width: 64px; height: 64px;">
+          	</a>
+
+          	<div class="media-body">
+		            	<h4 class="media-heading"> '.$first_name.' '.$last_name.'<small> '.$comment_date.'</small>'.'</h4> 
+		                '.$comment;
+		               
+        	echo '<br>';
 
 			if($username == $session_user_name){
-				echo '<a href="?comment_id='.$comment_id.'&mode=delete">Deletar</a>    ||  ';
-				echo '<a href="?comment_id='.$comment_id.'&mode=edit">Editar</a><br><br>';
+				echo '<a href="?comment_id='.$comment_id.'&mode=edit" role="button" class="btn btn-link">Editar comentário</a>';
+				echo '<a href="?comment_id='.$comment_id.'&mode=delete&ok=false" role="button" class="btn btn-link">Excluir comentário</a>';
+
+				//echo '<a href="?comment_id='.$comment_id.'&mode=edit">Editar</a><br><br>';
 			}
-			else
-				echo '<br>';
+			echo '<a class="reply btn btn-link" href="?id='.$comment_id .'">Responder</a> <hr>';	
+			
+
 			if($reply_rows>0){
 				while($field2 = mysql_fetch_array($reply_query)){
 
@@ -168,19 +185,35 @@ function load_comments($page_id, $user_data, $session_user_id){
 					$reply_first_name = $field2['first_name'];
 					$reply_last_name = $field2['last_name'];
 					$reply_username = $field2['username'];
+					$reply_profile_pic = $field2['profile'];
+					$reply_comment_data = $field2['date'];
 
 					if($to_reply_id == $comment_id){
-						echo '<div class="reply">'.'<a href="profile.php?username='.$reply_username.'">'.$reply_first_name.' '.$reply_last_name.'</a>  |  '.get_current_day().'<br>'.$reply.'<br></div><br>';
+						//echo '<div class="reply">'.'<a href="profile.php?username='.$reply_username.'">'.$reply_first_name.' '.$reply_last_name.'</a>  |  '.get_current_day().'<br>'.$reply.'<br></div><br>';
+						echo'<!-- Subcomentário -->
+		                <div class="media">
+		                  <a class="pull-left" href="#">
+		                    <img class="media-object img-circle" data-src="holder.js/64x64" alt="64x64" src="'.$reply_profile_pic.'" style="width: 64px; height: 64px;">
+		                  </a>
+		                  <div class="media-body">
+		                    <h4 class="media-heading">'.$reply_first_name.' '.$reply_last_name.'<small> '.$reply_comment_data.'</small>'.'</h4> 
+		                    '.$reply.'<br>';
+					
 					if($reply_username == $session_user_name){
-						echo '<a class="reply" href="?comment_id='.$reply_comment_id.'&mode=delete">Deletar</a>   ||';
-						echo '<a class="reply" href="?comment_id='.$reply_comment_id.'&mode=edit">Editar</a><br><br>';
-					}
+						echo '<a href="?comment_id='.$reply_comment_id.'&mode=edit" role="button" class="btn btn-link">Editar comentário</a>
+						<a href="?comment_id='.$reply_comment_id.'&mode=delete&ok=false" role="button" class="btn btn-link">Excluir comentário</a>';
+						echo '</div></div>';
+						//echo '<a class="reply" href="?comment_id='.$reply_comment_id.'&mode=edit">Editar</a><br><br>';
+					}						
 			else
-				echo '<br>';
+				echo '</div></div>';
 					}
+
 				}
+				echo '<hr></div>';
 			}
-			echo '<a class="reply" href="?id='.$comment_id .'">Responder</a> <hr>';
+			else
+				echo '</div>';
 		}
 	}
 }
@@ -218,9 +251,7 @@ function delete_comment($comment_id){
 
 function edit_comment($comment_id, $comment){
 	$comment_id = (int)$comment_id;
-
 	mysql_query("UPDATE comments SET comment = '$comment' WHERE comment_id = $comment_id");
-
-	header('Location= ?success');
+	header('Location: ?success');
 }
 ?>

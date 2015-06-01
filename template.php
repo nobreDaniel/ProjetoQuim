@@ -1,8 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-	<?php include 'include2/head.php' ?>
+	<?php 
+
+	include 'core/init.php';
+
+	protect_page();
+	$page_id = 1;
+	$to_reply_id = 0;
+	$reply = 0;	
+	$comment_id = NULL;
+
+	if(isset($_GET['id'])==true){
+		$reply = 1;
+		$to_reply_id = $_GET['id'];
+	}
+	else if(isset($_GET['success'])){
+		$to_reply_id = 0;
+		$reply = 0;
+		$comment_id = NULL;
+	}
+	else if(isset($_GET['comment_id'])){
+		$comment_id = $_GET['comment_id'];
+		if($_GET['mode']=='delete'){
+
+		}
+		if(empty($_GET['ok']) == false){
+			if($_GET['mode']=='delete' && $_GET['ok']=='true'){
+				delete_comment($comment_id);
+				header('Location: ?success');
+			}
+		}		
+	}
+	if(empty($_GET['mode'])==true || $_GET['mode'] !== 'edit'){
+		new_comment($session_user_id, $page_id, $to_reply_id, $reply);
+	}
+	if(empty($_GET['mode'])==false && $_GET['mode'] == 'edit' && empty($_POST)==false){
+		$comment = $_POST['comentario'];
+		edit_comment($_GET['comment_id'], $comment);
+	}
+
+	include 'include2/head.php' ?>
 	<body>
-		<?php include 'include2/navbar.php'; ?>
+	
+		<?php 
+		if(isset($_GET['id'])==true){
+			echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#modalResponderComentario').modal('show');
+					});
+					</script>";
+		}
+		if(empty($_GET['mode'])==false && $_GET['mode'] == 'edit'){
+			echo "<script type='text/javascript'>
+					$(document).ready(function(){
+					$('#modalEditarComentario').modal('show');
+					});
+					</script>";
+		}
+
+		if(isset($_GET['comment_id'])){
+			if(empty($_GET['ok']) == false){
+				if($_GET['mode']=='delete' && $_GET['ok']=='false'){
+					echo "<script type='text/javascript'>
+						$(document).ready(function(){
+						$('#modalExcluirComentario').modal('show');
+						});
+					</script>";
+				}
+			}
+		}		
+
+		include 'include2/navbar.php'; ?>
 		
 		<div class="corpo span12">
 			<div class="row-fluid">
@@ -24,7 +92,7 @@
 
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -35,62 +103,13 @@
 				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>		
-
+				<hr>
 			  	<h3>Comentários</h3>
 				<hr>
 				<!-- Comentários -->
-				<div class="media">
-
-					<!-- Imagem da pessoa que comenta -->
-	              	<a class="pull-left" href="#"> 
-	            		<img class="media-object" data-src="holder.js/64x64" alt="64x64" src="img/profile-mini.png" style="width: 64px; height: 64px;">
-	              	</a>
-					
-					<!-- Nome e comentário -->
-
-	              	<div class="media-body">
-		            	<h4 class="media-heading">Nome</h4>
-		                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-		               
-						<!-- Botão pra editar comentário -->
-	                    <a href="#myModal" role="button" class="btn btn-link" data-toggle="modal">Editar comentário</a>	
-
-		               	<!-- Subcomentário -->
-						<hr>
-		                <div class="media">
-		                  <a class="pull-left" href="#">
-		                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="img/profile-mini.png">
-		                  </a>
-		                  <div class="media-body">
-		                    <h4 class="media-heading">Media heading</h4> 
-		                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
-
-							<!-- Botão pra editar comentário -->
-		                    <a href="#myModal" role="button" class="btn btn-link" data-toggle="modal">Editar comentário</a>					
-		                  </div>
-		                </div>
-						
-		                <!-- Fim Subcomentário -->
-
-		               	<!-- Subcomentário -->
-						<hr>
-		                <div class="media">
-		                  <a class="pull-left" href="#">
-		                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" src="img/profile-mini.png">
-		                  </a>
-		                  <div class="media-body">
-		                    <h4 class="media-heading">Media heading</h4> 
-		                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
-
-							<!-- Botão pra editar comentário -->
-		                    <a href="#myModal" role="button" class="btn btn-link" data-toggle="modal">Editar comentário</a>					
-		                  </div>
-		                </div>
-
-		                <!-- Fim Subcomentário -->
-
-	              	</div>
-	            </div>
+				<?php   
+					load_comments($page_id, $user_data, $session_user_id);
+				?>
 
 				<div class="comentar">
 					<form action="">
@@ -100,12 +119,11 @@
 			 	</div>
 			</div>
 			<!-- Modal -->
-			<?php include 'include2/editarcomentariomodal.php'; 
+			<?php include 'include2/modal.php'; 
 
 
 				include 'include2/rodape.php';
 			?>
-
 		</div>
 		</div>
 		</body>

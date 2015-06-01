@@ -32,18 +32,14 @@
                     </form>
                     <ul class="nav pull-right">                   
                       <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configurações<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Opções<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                          <li><a href="#">Alterar senha</a></li>
-                          <li><a href="#">Alterar dados do perfil</a></li>
-                          <li><a href="#">Something else here</a></li>
+                          <li><a href="changepassword.php">Alterar senha</a></li>
+                          <li><a href="settings.php">Alterar dados do perfil</a></li>
                           <li class="divider"></li>
-                          <li><a href="#">Separated link</a></li>
+                          <li><a href="logout.php">Sair</a></li>
                         </ul>
-                      </li>
-                      <li class="divider-vertical"></li>
-                      <li><a href="#">Sair</a></li>
-                      
+                      </li>                     
                     </ul>
                   </div><!-- /.nav-collapse -->
                 </div>

@@ -22,7 +22,7 @@ if(empty($_POST)===false && logged_in()==false){
 		}
 		else{
 			$_SESSION['user_id'] = $login;
-			header('Location: index.php');
+			header('Location: template.php');
 			exit();
 		}
 	}
