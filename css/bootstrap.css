@@ -21,6 +21,8 @@
 
 }
 
+
+
 article,
 aside,
 details,
@@ -3139,10 +3141,11 @@ button.close {
   -webkit-appearance: none;
 }
 
+/* Propriedades.btn */
 .btn {
   display: inline-block;
   *display: inline;
-  padding: 4px 12px;
+    padding: 4px 12px;
   margin-bottom: 0;
   *margin-left: .3em;
   font-size: 14px;
@@ -3534,6 +3537,7 @@ input[type="submit"].btn.btn-mini {
           box-shadow: none;
 }
 
+/*Propriedades.btn-link*/
 .btn-link {
   color: #0088cc;
   cursor: pointer;
@@ -3541,6 +3545,7 @@ input[type="submit"].btn.btn-mini {
   -webkit-border-radius: 0;
      -moz-border-radius: 0;
           border-radius: 0;
+          padding: 4px 0px 4px 12px;
 }
 
 .btn-link:hover {
