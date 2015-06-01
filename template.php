@@ -41,7 +41,7 @@
 
 	include 'include2/head.php' ?>
 	<body>
-	
+
 		<?php 
 		if(isset($_GET['id'])==true){
 			echo "<script type='text/javascript'>
@@ -112,8 +112,8 @@
 				?>
 
 				<div class="comentar">
-					<form action="">
-						<textarea class="comentario" name="" id="" cols="30" rows="10"></textarea>
+					<form action="" method="post">
+						<textarea name="comentario" class="comentario" name="" id="" cols="30" rows="10"></textarea>
 						<input type="submit" class="btn btn-large span3" value="Comentar">
 					</form>
 			 	</div>

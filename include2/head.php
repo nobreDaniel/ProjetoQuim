@@ -10,4 +10,6 @@
 		<link rel="stylesheet" href="css/estilo.css">
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.validate.js"type="text/javascript"></script>
+        <script src="js/validation.js" type="text/javascript"></script>
 	</head>

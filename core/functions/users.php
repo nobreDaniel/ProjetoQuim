@@ -157,7 +157,8 @@ function load_comments($page_id, $user_data, $session_user_id){
 
 			echo
 
-			'<div class="media"> <a class="pull-left" href="#"> 
+			'<div class="media"> 
+			<a class="pull-left" href="profile.php?username='.$username.'"> 
         		<img class="media-object img-circle" data-src="holder.js/64x64" alt="64x64" src="'.$profile_pic.'" style="width: 64px; height: 64px;">
           	</a>
 
@@ -192,7 +193,7 @@ function load_comments($page_id, $user_data, $session_user_id){
 						//echo '<div class="reply">'.'<a href="profile.php?username='.$reply_username.'">'.$reply_first_name.' '.$reply_last_name.'</a>  |  '.get_current_day().'<br>'.$reply.'<br></div><br>';
 						echo'<!-- Subcomentário -->
 		                <div class="media">
-		                  <a class="pull-left" href="#">
+		                  <a class="pull-left" href="profile.php?username='.$reply_username.'">
 		                    <img class="media-object img-circle" data-src="holder.js/64x64" alt="64x64" src="'.$reply_profile_pic.'" style="width: 64px; height: 64px;">
 		                  </a>
 		                  <div class="media-body">
@@ -208,9 +209,10 @@ function load_comments($page_id, $user_data, $session_user_id){
 			else
 				echo '</div></div>';
 					}
+					echo '<hr>';
 
 				}
-				echo '<hr></div>';
+				echo '</div>';
 			}
 			else
 				echo '</div>';

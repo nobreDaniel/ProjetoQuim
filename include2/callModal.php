@@ -1,5 +1,15 @@
 <?php  
 
+	// Senha alterada
+	if(isset($_GET['alterada'])==true){
+		echo "
+		<script type='text/javascript'>
+			$(document).ready(function(){
+				$('#modalSenhaAlterada').modal('show');
+			});
+		</script>";
+	}
+
 	// Responder comentário
 	if(isset($_GET['id'])==true){
 		echo "

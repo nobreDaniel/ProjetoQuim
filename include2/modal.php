@@ -47,5 +47,20 @@
 			    </div>
 			</div>
 
+			<div id="modalSenhaAlterada" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			    <h3 id="myModalLabel">Senha alterada</h3>
+			  </div>
+			  <div class="modal-body">
+    		  	<form action="" method="post">
+    		  	<p>Sua senha foi alterada com sucesso</p>
+			  </div>
+			  <div class="modal-footer">
+			    <a href="template.php"class="btn btn-primary">Ok</a>
+			    </form>
+			    </div>
+			</div>
+
 			</div>
 			</div>

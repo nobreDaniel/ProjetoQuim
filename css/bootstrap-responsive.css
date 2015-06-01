@@ -127,6 +127,10 @@
     height: 50px;
     padding-top: 10px;
   }
+
+.navbar-profile {
+    height: 30px !important;
+  }
   .span12 {
     width: 1170px;
   }

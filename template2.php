@@ -33,7 +33,6 @@
 			?>
 				<div class="row-fluid">
 					<div class="span12 cover">
-	
 						<div class="row-fluid">
 							<div class="profile-pic span3 offset0">
 								<img class="img-circle" class="span12 profile-pic" src="<?php echo $user_data['profile'] ?>" alt="">
