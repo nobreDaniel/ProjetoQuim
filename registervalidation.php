@@ -1,4 +1,6 @@
 <?php
+
+	include 'core/init.php';
 	if(empty($_POST)==false){
 		if(user_exists($_POST['username']) == true){
 			$reg_errors[] = 'Usuário '.htmlentities($_POST['username']).' ja está em uso';

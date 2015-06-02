@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
-
+	<?php include 'core/init.php'; ?>
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/bootstrap-responsive.css">
 	<link rel="stylesheet" href="css/estilo.css">
@@ -22,7 +22,7 @@
 			    	<!--Formulário de login -->
 
 			      	<h2 align="center">Login</h2><hr>
-					<form action="" method="post">
+					<form action="login.php" method="post" id="login-form-validate">
 						<table class="login-form">
 							<tr>
 								<td align="center"colspan="2">
@@ -36,7 +36,7 @@
 
 							<tr>
 								<td colspan="2" align="center">
-								     <input class="input-xlarge margem10-topo" type="password" name="new_pass" id="new_pass" placeholder="Senha">
+								     <input class="input-xlarge margem10-topo" type="password" name="password" placeholder="Senha">
 								</td>
 							</tr>
 
@@ -54,7 +54,7 @@
 			    </div>
 			    <div class="tab-pane" id="tab2">
   			      	<h2 align="center">Cadastrar</h2><hr>
-					<form action="" method="post">
+					<form action="registervalidation.php" method="post" id="register-form">
 						<table class="login-form">
 							<tr>
 								<td align="center"colspan="2">
@@ -64,13 +64,13 @@
 
 							<tr>
 								<td align="center"colspan="2">
-							     	<input class="input-xlarge form-control margem10-topo" placeholder="Nome" type="text" name="email">
+							     	<input class="input-xlarge form-control margem10-topo" placeholder="Nome" type="text" name="first_name">
 							    </td>
 							</tr>
 
 							<tr>
 								<td align="center"colspan="2">
-							     	<input class="input-xlarge form-control margem10-topo" placeholder="Sobrenome" type="text" name="email">
+							     	<input class="input-xlarge form-control margem10-topo" placeholder="Sobrenome" type="text" name="last_name">
 							    </td>
 							</tr>
 
@@ -82,24 +82,23 @@
 							
 							<tr>
 								<td colspan="2" align="center">
-								     <input class="input-xlarge margem10-topo" type="password" name="new_pass" id="new_pass" placeholder="Senha">
+								     <input class="input-xlarge margem10-topo" type="password" name="password" id="password" placeholder="Senha">
 								</td>
 							</tr>
 
 							<tr>
 								<td colspan="2" align="center">
-								     <input class="input-xlarge margem10-topo" type="password" name="new_pass" id="new_pass" placeholder="Repita a senha">
+								     <input class="input-xlarge margem10-topo" type="password" name="password_again" placeholder="Repita a senha">
 								</td>
 							</tr>
 
 
 							<tr>
-								<td align="left"><a href="#tab2" data-toggle="tab" type="submit" class="btn btn-link">Não sou cadastrado</a></td>
+								<td align="left"><a href="#tab1" data-toggle="tab" type="submit" class="btn btn-link">Tenho uma conta</a></td>
 								<td align="right"><a type="submit" class="btn btn-link">Equeci minha senha</a></td>
 							</tr>
-								<td colspan="2" align="center"><input type="submit" class="btn" value="Login">	</td>
+								<td colspan="2" align="center"><input type="submit" class="btn" value="Cadastrar">	</td>
 							</tr>
-
 						</table>
 						<hr>
 			    </div>
